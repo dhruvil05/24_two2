@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('submenu', function (Blueprint $table) {
+        Schema::create('submenus', function (Blueprint $table) {
             $table->id('id');
             $table->string('submenu_name');
             $table->string('link');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('submenu');
+        Schema::dropIfExists('submenus');
     }
 };

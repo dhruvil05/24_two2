@@ -15,7 +15,7 @@ class Menu extends Model
         'route_name'
 
     ];
-    protected $table = 'menu';
+    protected $table = 'menus';
 
     public function submenu(){
         return $this->hasMany(SubMenu::class);
