@@ -34,6 +34,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/posts/list', function(){
+        return view('pages.posts.post_list');
+    })->name('post.list');
+
+    Route::get('posts/create', function(){
+        return view('pages.posts.post_create');
+    })->name('post.create');
 });
 
 require __DIR__.'/auth.php';

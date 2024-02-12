@@ -16,17 +16,30 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     @yield('css-style')
-    <title>TWO2</title>
+    
+    <title>
+      @if(View::hasSection('title'))
+        @yield('title')
+      @else
+          TWO2
+      @endif
+
+    </title>
+
   </head>
   <body>
     <div class="min-h-screen bg-gray-100">
-        @include('panels.navbar')
+      @include('panels.navbar')
 
-        <!-- Page Content -->
-        <main>
-            @yield('content')
-        </main>
+      <main>
+
+        @yield('header')
+        @yield('exited')
+        @yield('content')
+          
+      </main>
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
