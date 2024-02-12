@@ -93,7 +93,7 @@
                                 $2999
                             </td>
                             <td class="px-6 py-4 text-right flex">
-                                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline m-1">Edit</a>
+                                <a href="{{route('post.edit', ['id'=>'1'])}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline m-1">Edit</a>
                                 <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline m-1">View</a>
                                 <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline m-1">Delete</a>
                             </td>
