@@ -42,6 +42,10 @@ Route::middleware('auth')->group(function () {
     Route::get('posts/create', function(){
         return view('pages.posts.post_create');
     })->name('post.create');
+
+    Route::get('posts/list/{id?}', function(){
+        return view('pages.posts.post_edit');
+    })->name('post.edit');
 });
 
 require __DIR__.'/auth.php';
