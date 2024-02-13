@@ -29,16 +29,7 @@
 
 @section('exited')   
 
-    <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8 space-y-12">
-        <div class="border-b border-gray-900/10 pb-12">
-            <h2 class="text-base font-semibold leading-7 text-gray-900 italic">just funn! 🐳</h2>
-            <p class="mt-1 text-sm leading-6 text-gray-600 quote">
-                Footer element can be used to display a site map, followed by copyright information and social media icons.
-
-                Additional navigation on the page includes basic support content such as links, buttons, company information, copyright and forms. The footer can be easily customized to fit your style and is responsive by default.
-            </p>
-        </div>
-    </div>
+    @include('excited.qoute')
 
 @endsection
 
@@ -102,8 +93,13 @@
 @endsection
 
 @section('js-script')
-
-    <script type="text/javascript">
+    
+    <script>
+        window.CKEDITOR
+            .create( document.querySelector( '#editorBody' ) )
+            .catch( error => {
+                console.error( error );
+            } );
 
         // $('#postCreateForm').on('submit', function(e) {
         //     e.preventDefault(); 
