@@ -94,7 +94,12 @@
 
 @section('js-script')
     
-    <script type="text/javascript">
+    <script>
+        window.CKEDITOR
+            .create( document.querySelector( '#editorBody' ) )
+            .catch( error => {
+                console.error( error );
+            } );
 
         // $('#postCreateForm').on('submit', function(e) {
         //     e.preventDefault(); 

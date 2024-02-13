@@ -13,7 +13,6 @@
             type: 'Get',
             url: "http://api.quotable.io/random",
             success: function(data){
-            console.log(data);
                 var qoute = data.content;
                 var author = '-'+data.author;
                 if(qoute !== null){
