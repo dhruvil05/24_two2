@@ -21,4 +21,5 @@ composer.lock
 public/mix-manifest.json
 public/images/
 public/fonts/
+resources/js/ckeditor
 
