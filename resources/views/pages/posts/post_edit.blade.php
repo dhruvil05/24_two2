@@ -50,7 +50,7 @@
                 <div class="space-y-12">
                     <div class="border-b border-gray-900/10 pb-12">
                         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                            <input type="hidden" value="{{ $post[0]->id }}" name="editId">
+                            <input type="hidden" value="{{ $post[0]->id }}" name="editId" id="editId">
                             <div class="sm:col-span-4">
                                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
                                     Title
@@ -103,13 +103,24 @@
         $('#postEditForm').submit(function(e) {
             e.preventDefault(); 
 
-            let form  = $('#postEditForm')[0]
-            let formdata = new FormData(form);
+            let editId = $("#editId").val();
+            let title = $("#title").val();
+            let description = $("#description").val();
+            let editorBody = CKEDITOR.instances.editorBody.getData();
+            // let form  = $('#postEditForm')[0]
+            let formdata = new FormData();
+            formdata.append('editId', editId);
+            formdata.append('title', title);
+            formdata.append('description', description);
+            formdata.append('editorBody', editorBody);
 
             $("#submitBtn").prop("disabled", true);
             $.ajax({
                 type: "POST",
                 url: "{{route('post.edit')}}",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 data: formdata,
                 processData:false,
                 contentType:false,
