@@ -56,6 +56,7 @@ class PostController extends Controller
     public function edit(Request $request){
 
         $validated = $request->validate([
+            'editId'=> 'required',
             'title'=>'required',
             'description'=>'required',
             'editorBody'=>'required',

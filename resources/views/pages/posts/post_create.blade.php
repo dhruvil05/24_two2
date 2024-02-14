@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('js-css-ss')
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+@endsection
+
 @section('header')
     <header class="bg-white shadow m-2 rounded-md">
         <div class="mx-auto max-w-7xl px-2 py-2 sm:px-6 lg:px-8 flex justify-between items-center">
@@ -70,7 +74,7 @@
                                 </label>
 
                                     <textarea id="editorBody" name="editorBody" rows="3"
-                                        class="ckeditor block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{{old('editorBody')}}">
+                                        class="ckeditor block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     </textarea>
                                     <span class="mt-2 text-red-600" id="editorBodyErrorMsg"></span>
 
@@ -107,13 +111,22 @@
             $('#postCreateForm').submit(function(e) {
                 e.preventDefault(); 
 
-                let form  = $('#postCreateForm')[0]
-                let formdata = new FormData(form);
+                let title = $("#title").val();
+                let description = $("#description").val();
+                let editorBody = CKEDITOR.instances.editorBody.getData();
+                // let form  = $('#postCreateForm')[0]
+                let formdata = new FormData();
+                formdata.append('title', title);
+                formdata.append('description', description);
+                formdata.append('editorBody', editorBody);
 
                 $("#submitBtn").prop("disabled", true);
                 $.ajax({
                     type: "POST",
                     url: "{{route('post.store')}}",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     data: formdata,
                     processData:false,
                     contentType:false,
