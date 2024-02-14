@@ -78,30 +78,96 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
-                                Apple MacBook Pro 17"
-                            </th>
-                            <td class="px-6 py-4">
-                                Silver
-                            </td>
-                            <td class="px-6 py-4">
-                                Laptop
-                            </td>
-                            <td class="px-6 py-4">
-                                $2999
-                            </td>
-                            <td class="px-6 py-4 text-right flex">
-                                <a href="{{route('post.edit', ['id'=>'1'])}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline m-1">Edit</a>
-                                <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline m-1">View</a>
-                                <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline m-1">Delete</a>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody id="postTable"></tbody>
                 </table>
             </div>
         </div>
     </div>
+    
+@endsection
 
+@section('js-script')
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "{{route('post.getAll')}}",
+                success: function (response) {
+                    var posts = response.posts??[];
+                    if (posts.length > 0) {
+                        
+                        $.map(posts, function (post, index) {
+                            
+                            $('#postTable').append(`
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-black">
+                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
+                                        `+ (index+1) +`
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        `+ (post['title']) +`
+
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        `+ (post['description']) +`
+
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        `+ (post['created_at']) +`
+
+                                    </td>
+                                    <td class="px-6 py-4 text-right flex">
+
+                                        <a href="list/edit/`+ (post['id']) +`" class="font-medium text-blue-600 dark:text-blue-500 hover:underline m-1 hover:text-blue-600"> Edit </a>
+
+                                        <a href="#" class="postDelete font-medium text-red-600 dark:text-red-500 hover:underline m-1 hover:text-red-600" data-id="`+ (post['id']) +`"> Delete </a>
+
+                                    </td>
+                                </tr>
+                            `)
+                        });
+                    }else{
+                        $('#postTable').html(`
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center">
+                                <td colspan='5' class="px-6 py-4">
+                                    Data Not Found
+                                </td>
+                            </tr>
+                        `)
+                    }
+                }
+            });
+
+            $("#postTable").on("click", ".postDelete", function(){
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let id = $(this).attr('data-id');
+                        let obj = $(this);
+                        $.ajax({
+                            type: "GET",
+                            url: "list/delete/"+ id +"",
+                            success: function (response) {
+                                
+                                if(response.success){
+                                    toastr.success(response.success);
+                                    $(obj).parent().parent().remove();
+                                }
+                                if(response.error){
+                                    toastr.error(response.error)
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
