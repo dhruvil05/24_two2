@@ -34,21 +34,22 @@ Route::get('/login/{social}/callback', [GoogleSocialiteController::class, 'handl
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/posts/list', [PostController::class, 'index'])->name('post.list');
     Route::get('/posts/allpost', [PostController::class, 'getAllPosts'])->name('post.getAll');
 
-    Route::get('posts/create', [PostController::class, 'create'])->name('post.create');
-
-    Route::post('posts/create', [PostController::class, 'store'])->name('post.store');
-
-    Route::get('posts/list/edit/{id}',[PostController::class, 'getEditPostData'])->name('post.getEdit');
-    Route::post('posts/list/edit',[PostController::class, 'edit'])->name('post.edit');
     
-    Route::middleware('roles:SuperAdmin')->group(function(){
-        Route::get('posts/list/delete/{id}',[PostController::class, 'delete'])->name('post.delete');
+    Route::middleware('roles:SuperAdmin,Admin')->group(function(){
+        Route::get('posts/create', [PostController::class, 'create'])->name('post.create');
+        Route::post('posts/create', [PostController::class, 'store'])->name('post.store');
+        Route::get('posts/list/edit/{id}',[PostController::class, 'getEditPostData'])->name('post.getEdit');
+        Route::post('posts/list/edit',[PostController::class, 'edit'])->name('post.edit');
 
+        Route::middleware('roles:SuperAdmin')->group(function(){
+            Route::get('posts/list/delete/{id}',[PostController::class, 'delete'])->name('post.delete');
+            
+            Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        });
     });
 });
 
