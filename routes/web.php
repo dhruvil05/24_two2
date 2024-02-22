@@ -45,7 +45,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('posts/list/edit/{id}',[PostController::class, 'getEditPostData'])->name('post.getEdit');
     Route::post('posts/list/edit',[PostController::class, 'edit'])->name('post.edit');
-    Route::get('posts/list/delete/{id}',[PostController::class, 'delete'])->name('post.delete');
+    
+    Route::middleware('roles:SuperAdmin')->group(function(){
+        Route::get('posts/list/delete/{id}',[PostController::class, 'delete'])->name('post.delete');
+
+    });
 });
 
 require __DIR__.'/auth.php';

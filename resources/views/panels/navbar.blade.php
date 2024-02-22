@@ -6,7 +6,7 @@
                     <!-- Mobile menu button-->
                     <button type="button"
                         class="burger_btn relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                        aria-controls="mobile-menu" aria-expanded="false">
+                        aria-controls="mobile-menu" aria-expanded="false" id="sandwichbtn">
                         <span class="absolute -inset-0.5"></span>
                         <span class="sr-only">Open main menu</span>
                         <!--
@@ -149,22 +149,23 @@
         </div>
 
         <!-- Mobile menu, show/hide based on menu state. -->
-        <div class="sm:hidden" id="mobile-menu">
+        <div class="sm:hidden hidden" id="mobile-menu">
             <div class="space-y-1 px-2 pb-3 pt-2">
                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                <a href="#" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
+                <a href="/" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
                     aria-current="page">Dashboard</a>
-                <a href="#"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Team</a>
-                <a href="#"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Projects</a>
-                <a href="#"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Calendar</a>
+                <a href="/posts/list" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">posts</a>
             </div>
         </div>
     </nav>
 </body>
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#sandwichbtn").click(function(){
+            $("#mobile-menu").toggleClass("hidden");
+        });
+    });
 
     $(document).mouseover(function(e){
         var mainMenu = $(e.target).attr('id');

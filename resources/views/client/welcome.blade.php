@@ -9,12 +9,12 @@
                         <span class="sr-only">Your Company</span>
                         {{-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt=""> --}}
                         <a href="{{ route('welcome') }}"
-                            class="text-3xl text-blue-400 font-bold text-center hover:text-blue-700">TWO2</h1>
+                            class="text-3xl text-blue-400 font-bold text-center hover:text-blue-700">TWO2
                         </a>
                 </div>
                 <div class="flex lg:hidden">
                     <button type="button"
-                        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+                        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 btncls">
                         <span class="sr-only">Open main menu</span>
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                             aria-hidden="true">
@@ -35,18 +35,14 @@
                 </div>
             </nav>
             <!-- Mobile menu, show/hide based on menu open state. -->
-            <div class="lg:hidden" role="dialog" aria-modal="true">
+            <div class="lg:hidden hidden" role="dialog" aria-modal="true" id="mobileMenuWel">
                 <!-- Background backdrop, show/hide based on slide-over state. -->
                 <div class="fixed inset-0 z-50"></div>
                 <div
                     class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-                    <div class="flex items-center justify-between">
-                        <a href="#" class="-m-1.5 p-1.5">
-                            <span class="sr-only">Your Company</span>
-                            <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                alt="">
-                        </a>
-                        <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+                    <div class="flex items-center justify-end">
+                        
+                        <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700 btncls">
                             <span class="sr-only">Close menu</span>
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                 aria-hidden="true">
@@ -84,14 +80,14 @@
                 </div>
             </div>
             <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-                <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+                <div class="sm:mb-8 sm:flex sm:justify-center">
                     {{-- <div class="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
                 Announcing our next round of funding. <a href="#" class="font-semibold text-indigo-600"><span class="absolute inset-0" aria-hidden="true"></span>Read more <span aria-hidden="true">&rarr;</span></a>
             </div>
             </div> --}}
                     <div class="text-center">
                         <h1
-                            class="animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent text-7xl font-black">
+                            class="text-5xl animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent sm:text-7xl font-black">
                             Hello World
                         </h1>
                         {{-- <p class="mt-6 text-lg leading-8 text-gray-600">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>
@@ -109,4 +105,16 @@
                 </div>
             </div>
         </div>
+    @endsection
+
+    @section('js-script')
+        
+    <script>
+        $(document).ready(function () {
+            $(".btncls").click(function(){
+                $("#mobileMenuWel").toggleClass("hidden");
+            });
+        });
+    </script>
+        
     @endsection
