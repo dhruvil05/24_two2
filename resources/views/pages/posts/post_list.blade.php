@@ -38,8 +38,8 @@
 
 @section('content')   
     <div class="min-h-full">
-        <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div class="px-4 mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            <div class="rounded-md relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
