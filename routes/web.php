@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\GoogleSocialiteController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -38,7 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/posts/list', [PostController::class, 'index'])->name('post.list');
     Route::get('/posts/allpost', [PostController::class, 'getAllPosts'])->name('post.getAll');
 
-    
+    Route::get('/posts-chart', [ChartController::class, 'barChart'])->name('dashboard.chart');
+
     Route::middleware('roles:SuperAdmin,Admin')->group(function(){
         Route::get('posts/create', [PostController::class, 'create'])->name('post.create');
         Route::post('posts/create', [PostController::class, 'store'])->name('post.store');
