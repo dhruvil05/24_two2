@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\GoogleSocialiteController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TasksController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +40,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/posts/list', [PostController::class, 'index'])->name('post.list');
     Route::get('/posts/allpost', [PostController::class, 'getAllPosts'])->name('post.getAll');
 
+    Route::get('/posts-chart', [ChartController::class, 'barChart'])->name('dashboard.chart');
+
+    Route::post('/calendar', [TasksController::class, 'index'])->name('calendar.data');
+    Route::get('/calendar/add-task', [TasksController::class, 'redirectView'])->name('task.add');
+    Route::post('/calendar/add-task', [TasksController::class, 'store'])->name('task.store');
+    Route::get('/calendar/task/delete/{id}', [TasksController::class, 'destroy'])->name('task.delete');
     
     Route::middleware('roles:SuperAdmin,Admin')->group(function(){
         Route::get('posts/create', [PostController::class, 'create'])->name('post.create');
