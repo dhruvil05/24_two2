@@ -7,7 +7,7 @@
                 <h1 class="text-2xl font-bold tracking-tight text-gray-900">Dashboard</h1>
             </div>
             <div class="">
-                <a href="{{ route('post.create') }}"
+                <a href="{{ route('task.add') }}"
                     class="relative inline-flex items-center justify-center p-2 px-6 py-1 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-gray-800 rounded-full shadow-md group">
                     <span
                         class="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-gray-800 group-hover:translate-x-0 ease">
@@ -18,9 +18,9 @@
                         </svg>
                     </span>
                     <span
-                        class="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform group-hover:translate-x-full ease">Create
-                        Post</span>
-                    <span class="relative invisible">Create Post</span>
+                        class="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform group-hover:translate-x-full ease">Add
+                        Task</span>
+                    <span class="relative invisible">Add Task</span>
                 </a>
 
             </div>
@@ -61,9 +61,7 @@
                     <canvas id="barChart"></canvas>
                 </div>
             </div>
-            <div class="" style="width:400px;height:300px">
-            </div>
-
+            <div class="sm:w-full md:w-1/2 bg-white shadow m-2 p-2 rounded-md" style="width: 100%" id="calendar"></div>
         </div>
     </div>
 @endsection
@@ -109,6 +107,77 @@
                             }
                         });
                     }
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajax({
+                type: "post",
+                url: "{{ route('calendar.data') }}",
+                // data: "",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    let tasks = res.tasks;
+                    let Events = [];
+
+                    tasks.forEach(element => {
+                        Events.push({
+                                title: element['name'],
+                                start: element['start_date'],
+                                end: element['end_date'],
+                                url: "http://two2.local/calendar/task/delete/" + element['id']
+                            },
+                        );
+                    });
+
+                    var calendarEl = document.querySelector('#calendar');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        headerToolbar: { center: 'dayGridMonth,timeGridWeek,timeGridDay' },
+                        events: Events,
+                        eventClick: function(info) {
+                                info.jsEvent.preventDefault(); // don't let the browser navigate
+
+                                if (info.event.url) {
+                                    Swal.fire({
+                                        title: "Are you sure?",
+                                        text: "You won't be able to revert this!",
+                                        icon: "warning",
+                                        showCancelButton: true,
+                                        confirmButtonColor: "#3085d6",
+                                        cancelButtonColor: "#d33",
+                                        confirmButtonText: "Yes, delete it!"
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            $.ajax({
+                                                type: "GET",
+                                                url: info.event.url,
+                                                success: function(response) {
+                                                    let obj = $(this);
+                                                    if (response.success) {
+                                                        toastr.success(response.success);
+                                                        setTimeout(() => {
+                                                            window.location = "{{route('dashboard')}}";
+                                                        }, 1000);
+                                                    }
+                                                    if (response.error) {
+                                                        toastr.error(response.error);
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            },
+                    });
+                    calendar.render();
                 }
             });
         });

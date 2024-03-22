@@ -25,12 +25,13 @@ class ChartController extends Controller
         ->whereBetween(DB::raw('DATE_FORMAT(updated_at, "%Y-%m-%d")'), ["$weekStartDate", "$weekEndDate"])
         ->groupBy(DB::raw('CAST(updated_at AS DATE)'))->orderBy('updated_at')
         ->get(['puc', 'updated_at']);
-
+        
     // Listing labels X-axis
         $creates = $posts->pluck('created_at')->toArray();
         $updatedDates = $updates->pluck('updated_at')->toArray();
+        $result = $this->merge($creates, $updatedDates);
 
-        $mergeDates = array_unique(array_merge($creates, $updatedDates));
+        $mergeDates = array_unique($result);
         $dateList = array();
         foreach ($mergeDates as $key => $value) {
             $formated_date = Carbon::parse($value)->format('Y-m-d');
@@ -78,4 +79,62 @@ class ChartController extends Controller
 
         return response()->json(['data'=>$data]);
     }
+
+    public function mergeSort($array) {
+        $length = count($array);
+    
+        if ($length <= 1) {
+            return $array; // Base case: Already sorted or empty array
+        }
+    
+        // Divide the array into two halves
+        $mid = (int)($length / 2);
+        $left = array_slice($array, 0, $mid);
+        $right = array_slice($array, $mid);
+    
+        // Recursively sort the two halves
+        $left = $this->mergeSort($left);
+        $right = $this->mergeSort($right);
+    
+        // Merge the sorted halves
+        return $this->merge($left, $right);
+    }
+    
+    public function merge($left, $right) {
+        $result = [];
+        $leftLength = count($left);
+        $rightLength = count($right);
+        $i = 0; // Index for the left array
+        $j = 0; // Index for the right array
+    
+        while ($i < $leftLength && $j < $rightLength) {
+            if ($left[$i] <= $right[$j]) {
+                $result[] = $left[$i];
+                $i++;
+            } else {
+                $result[] = $right[$j];
+                $j++;
+            }
+        }
+    
+        // Append the remaining elements, if any
+        while ($i < $leftLength) {
+            $result[] = $left[$i];
+            $i++;
+        }
+    
+        while ($j < $rightLength) {
+            $result[] = $right[$j];
+            $j++;
+        }
+    
+        return $result;
+    }
+
+    public function arraySort($arr){
+        $data = [];
+
+        dd($arr);
+    }
+    
 }
